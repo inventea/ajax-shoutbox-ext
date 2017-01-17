@@ -14,23 +14,14 @@ services:
         tags:
             - { name: event.listener }
 
-    paul999.ajaxshoutbox.push:
-            class: paul999\ajaxshoutbox\actions\push
-            arguments:
-                - @config
-                - @user
-                - @log
-
     paul999.ajaxshoutbox.delete:
         class: paul999\ajaxshoutbox\actions\delete
         arguments:
             - @config
             - @dbal.conn
             - @auth
-            - @log
             - @request
             - @user
-            - @paul999.ajaxshoutbox.push
             - %paul999.ajaxshoutbox.tables.ajaxshoutbox%
 
     paul999.ajaxshoutbox.controller:
@@ -43,9 +34,7 @@ services:
             - @request
             - @dbal.conn
             - @auth
-            - @log
             - @paul999.ajaxshoutbox.delete
-            - @paul999.ajaxshoutbox.push
             - %core.root_path%
             - %core.php_ext%
             - %paul999.ajaxshoutbox.tables.ajaxshoutbox%
@@ -57,7 +46,6 @@ services:
             - @dbal.conn
             - @log
             - @user
-            - @paul999.ajaxshoutbox.push
             - %paul999.ajaxshoutbox.tables.ajaxshoutbox%
         calls:
             - [set_name, [cron.task.shoutbox_prune]]
